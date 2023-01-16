@@ -1,2 +1,8 @@
-package com.jorados.diary.repository;public interface MemberRepository {
+package com.jorados.diary.repository;
+
+import com.jorados.diary.domain.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MemberRepository extends JpaRepository<Member, Long> {
+    Member findByUsername(String username);
 }
