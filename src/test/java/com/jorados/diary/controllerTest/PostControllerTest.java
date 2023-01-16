@@ -2,12 +2,11 @@ package com.jorados.diary.controllerTest;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.jorados.diary.domain.Post;
 import com.jorados.diary.repository.PostRepository;
 import com.jorados.diary.request.PostCreate;
+import com.jorados.diary.request.PostEdit;
 import com.jorados.diary.service.PostService;
-import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -24,6 +22,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -113,7 +113,7 @@ public class PostControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
         //then
-        Assertions.assertThat(postRepository.findAll().size()).isEqualTo(1);
+        assertThat(postRepository.findAll().size()).isEqualTo(1);
     }
 
     @Test
@@ -163,6 +163,56 @@ public class PostControllerTest {
                 .andExpect(jsonPath("$.[0].content").value("내용19"))
                 .andDo(print());
         //then
+    }
+
+    @Test
+    @DisplayName("글 수정 테스트")
+    @WithMockUser
+    public void test6() throws Exception {
+        //given
+        Post post = Post.builder()
+                .title("제목")
+                .content("내용")
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("나는 성진")
+                .content("나는 성진")
+                .build();
+        //when
+        mockMvc.perform(patch("/posts/{postId}",post.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(postEdit))
+                .with(csrf())
+        )
+                .andExpect(status().isOk())
+                .andDo(print());
+        Post findPost = postRepository.findById(post.getId()).orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id " + post.getId()));
+        assertThat(findPost.getContent()).isEqualTo("나는 성진");
+        //then
+    }
+
+    @Test
+    @DisplayName("글 삭제 테스트")
+    @WithMockUser
+    public void test7() throws Exception {
+        //given
+        Post post = Post.builder()
+                .title("제목")
+                .content("내용")
+                .build();
+        postRepository.save(post);
+        //when
+        mockMvc.perform(delete("/posts/{postId}", post.getId())
+                        .contentType(APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        //then
+        assertThat(postRepository.findAll().size()).isEqualTo(0);
     }
 
 

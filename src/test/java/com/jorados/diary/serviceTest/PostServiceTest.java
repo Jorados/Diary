@@ -1,5 +1,6 @@
 package com.jorados.diary.serviceTest;
 
+import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
 import com.jorados.diary.repository.PostRepository;
 import com.jorados.diary.request.PostCreate;
@@ -129,5 +130,7 @@ public class PostServiceTest {
 
         assertThat(postRepository.findAll().size()).isEqualTo(0);
     }
+
+
 
 }

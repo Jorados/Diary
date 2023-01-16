@@ -6,6 +6,7 @@ import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.jorados.diary.domain.QPost.post;
 
@@ -22,4 +23,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .orderBy(post.id.desc())
                 .fetch();
     }
+
+
 }
