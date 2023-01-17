@@ -39,23 +39,32 @@ public class MemberService {
         }
     }
 
-    public MemberResponse read(Member member) {
-        Member findMember = memberRepository.findById(member.getId()).orElseThrow(() -> new MemberNotFound());
+    public MemberResponse read(Long memberId) {
+        Member findMember = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFound());
         MemberResponse memberResponse = MemberResponse.builder()
                 .id(findMember.getId())
                 .username(findMember.getUsername())
-                .loginId(findMember.getLoginId())
+                .nickname(findMember.getNickname())
                 .password(findMember.getPassword())
                 .build();
         return memberResponse;
     }
+
+    //내가 쓴 글 조회
+    public Member MyPostRead(Long memberId){
+        //--> memberId를 받아서 특정회원 찾는 쿼리로 만들어야됨
+        Member findMember = memberRepository.findByMemberId(memberId);
+        return findMember;
+    }
+
+
 
     @Transactional
     public void update(Long memberId, MemberEdit memberEdit) {
         Member findMember = memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFound());
         findMember.edit(
                 memberEdit.getUsername() != null ? memberEdit.getUsername() : findMember.getUsername(),
-                memberEdit.getLoginId() != null ? memberEdit.getLoginId() : findMember.getLoginId(),
+                memberEdit.getNickname() != null ? memberEdit.getNickname() : findMember.getNickname(),
                 memberEdit.getPassword() != null ? memberEdit.getPassword() : findMember.getPassword()
         );
     }

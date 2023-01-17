@@ -2,12 +2,15 @@ package com.jorados.diary.serviceTest;
 
 import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
+import com.jorados.diary.exception.MemberNotFound;
 import com.jorados.diary.repository.MemberRepository;
+import com.jorados.diary.repository.PostRepository;
 import com.jorados.diary.request.MemberEdit;
 import com.jorados.diary.response.MemberResponse;
 import com.jorados.diary.response.PostResponse;
 import com.jorados.diary.service.MemberService;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +20,14 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 public class MemberServiceTest {
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    MemberService memberService;
+    @BeforeEach
+    void deleteAll(){
+        memberRepository.deleteAll();
+    }
+    @Autowired MemberRepository memberRepository;
+    @Autowired MemberService memberService;
+
+    @Autowired PostRepository postRepository;
     @Test
     @DisplayName("회원가입")
     public void test1() throws Exception {
@@ -45,18 +52,18 @@ public class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .username("성진")
-                .loginId("성진")
+                .nickname("성진")
                 .password("성진")
                 .build();
         memberRepository.save(member);
 
         //when
-        MemberResponse findMember = memberService.read(member);
+        MemberResponse findMember = memberService.read(member.getId());
 
         //then
         assertThat(memberRepository.findAll().size()).isEqualTo(1);
         assertThat(findMember.getUsername()).isEqualTo("성진");
-        assertThat(findMember.getLoginId()).isEqualTo("성진");
+        assertThat(findMember.getNickname()).isEqualTo("성진");
     }
 
     @Test
@@ -65,20 +72,20 @@ public class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .username("성진")
-                .loginId("성진")
+                .nickname("성진")
                 .password("성진")
                 .build();
         memberRepository.save(member);
 
         MemberEdit memberEdit = MemberEdit.builder()
                 .username("ssss")
-                .loginId("ssss")
+                .nickname("ssss")
                 .password("ssss")
                 .build();
         //when
         memberService.update(member.getId(), memberEdit);
         //then
-        Member findMember = memberRepository.findById(member.getId()).orElseThrow(() -> new IllegalArgumentException());
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(() -> new MemberNotFound());
         assertThat(findMember.getUsername()).isEqualTo("ssss");
     }
 
@@ -88,14 +95,64 @@ public class MemberServiceTest {
         //given
         Member member = Member.builder()
                 .username("성진")
-                .loginId("성진")
+                .nickname("성진")
                 .password("성진")
                 .build();
         memberRepository.save(member);
         //when
-        Member findMember = memberRepository.findById(member.getId()).orElseThrow(() -> new IllegalArgumentException());
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(() -> new MemberNotFound());
         memberService.delete(findMember.getId());
         //then
         assertThat(memberRepository.findAll().size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("작성한 글 조회")
+    public void test5() throws Exception {
+        //given
+        Member member = Member.builder()
+                .username("seongjin")
+                .password("123")
+                .nickname("호랑이")
+                .build();
+
+        memberRepository.save(member);
+
+        Post post = Post.builder()
+                .title("하하")
+                .content("호호")
+                .member(member)
+                .build();
+
+        postRepository.save(post);
+
+        //when
+        Member findMember = memberRepository.findMemberFetchJoin();
+        //then
+        assertThat(findMember.getPost().size()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("작성한 글 조회-2")
+    public void test6() throws Exception {
+        //given
+        Member member = Member.builder()
+                .username("seongjin")
+                .password("123")
+                .nickname("호랑이")
+                .build();
+        memberRepository.save(member);
+
+        Post post = Post.builder()
+                .title("하하")
+                .content("호호")
+                .member(member)
+                .build();
+        postRepository.save(post);
+
+        //when
+        Member findMember = memberRepository.findByMemberId(member.getId());
+        //then
+        assertThat(findMember.getPost().size()).isEqualTo(1);
     }
 }

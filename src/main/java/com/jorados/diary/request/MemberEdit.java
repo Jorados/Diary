@@ -10,14 +10,14 @@ public class MemberEdit {
     @NotBlank
     private String username;
     @NotBlank
-    private String loginId;
+    private String nickname;
     @NotBlank
     private String password;
 
     @Builder
-    public MemberEdit(String username, String loginId, String password) {
+    public MemberEdit(String username, String nickname, String password) {
         this.username = username;
-        this.loginId = loginId;
+        this.nickname = nickname;
         this.password = password;
     }
 }

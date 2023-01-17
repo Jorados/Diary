@@ -38,6 +38,10 @@ public class PostService {
         return postResponse;
     }
 
+    public List<Post> findByMemberId(Long memberId){
+        return postRepository.findByMemberId(memberId);
+    }
+
     //페이징 처리 만들고 나중에
     public List<PostResponse> readAll(PostSearch postSearch){
         return postRepository.getList(postSearch).stream()

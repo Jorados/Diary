@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
 import com.jorados.diary.repository.MemberRepository;
+import com.jorados.diary.repository.PostRepository;
 import com.jorados.diary.service.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +24,7 @@ import java.util.stream.IntStream;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -39,14 +41,17 @@ public class MemberControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    PostRepository postRepository;
+
     @Test
     @DisplayName("회원가입")
     @WithMockUser
     public void test1() throws Exception {
         //given
         Member member = Member.builder()
-                .username("성진")
-                .loginId("asd")
+                .username("asd")
+                .nickname("성진")
                 .password("123")
                 .build();
         String json = objectMapper.writeValueAsString(member);
@@ -68,15 +73,15 @@ public class MemberControllerTest {
     public void test2() throws Exception {
         //given
         Member member = Member.builder()
-                .username("성진")
-                .loginId("asd")
+                .username("asd")
+                .nickname("성진")
                 .password("123")
                 .build();
         memberRepository.save(member);
 
         Member member2 = Member.builder()
-                .username("성진")
-                .loginId("asd")
+                .username("asd")
+                .nickname("성진")
                 .password("123")
                 .build();
         String json = objectMapper.writeValueAsString(member2);
@@ -90,5 +95,37 @@ public class MemberControllerTest {
                 .andDo(print());
         //then
     }
+
+    @Test
+    @DisplayName("내가 작성한 글 조회")
+    @WithMockUser
+    public void test3() throws Exception {
+        //given
+        Member member=Member.builder()
+                .username("seongjin")
+                .password("1234")
+                .nickname("성진")
+                .build();
+        Member saveMember = memberRepository.save(member);
+
+        Post post = Post.builder()
+                .title("하하")
+                .content("호호")
+                .member(member)
+                .build();
+        postRepository.save(post);
+
+        //when
+        mockMvc.perform(get("/member/{memberId}/post",saveMember.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf())
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+        //then
+
+    }
+
+
 
 }

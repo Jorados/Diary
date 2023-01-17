@@ -2,6 +2,8 @@ package com.jorados.diary.serviceTest;
 
 import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
+import com.jorados.diary.exception.PostNotFound;
+import com.jorados.diary.repository.MemberRepository;
 import com.jorados.diary.repository.PostRepository;
 import com.jorados.diary.request.PostCreate;
 import com.jorados.diary.request.PostEdit;
@@ -28,6 +30,7 @@ public class PostServiceTest {
 
     @Autowired PostRepository postRepository;
     @Autowired PostService postService;
+    @Autowired MemberRepository memberRepository;
 
     @BeforeEach
     void deleteAll(){
@@ -131,6 +134,29 @@ public class PostServiceTest {
         assertThat(postRepository.findAll().size()).isEqualTo(0);
     }
 
+    @Test
+    @DisplayName("글쓴이")
+    public void test5() throws Exception {
+        //given
+        Member member = Member.builder()
+                .username("seongjin")
+                .password("123")
+                .nickname("호랑이")
+                .build();
 
+        memberRepository.save(member);
+
+        Post post = Post.builder()
+                .title("하하")
+                .content("호호")
+                .member(member)
+                .build();
+
+        postRepository.save(post);
+        //when
+        Post findPost = postRepository.findPostFetchJoin(post.getId());
+        //then
+        assertThat(findPost.getMember().getNickname()).isEqualTo("호랑이");
+    }
 
 }
