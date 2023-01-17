@@ -1,6 +1,7 @@
 package com.jorados.diary.service;
 
 import com.jorados.diary.domain.Post;
+import com.jorados.diary.exception.PostNotFound;
 import com.jorados.diary.repository.PostRepository;
 import com.jorados.diary.request.PostCreate;
 import com.jorados.diary.request.PostEdit;
@@ -28,7 +29,7 @@ public class PostService {
     }
 
     public PostResponse read(Long postId){
-        Post post = postRepository.findById(postId).orElseThrow(()->new RuntimeException());
+        Post post = postRepository.findById(postId).orElseThrow(()->new PostNotFound());
         PostResponse postResponse = PostResponse.builder()
                 .id(post.getId())
                 .title(post.getTitle())
@@ -46,7 +47,7 @@ public class PostService {
 
     @Transactional
     public void update(Long postId,PostEdit postEdit) {
-        Post findPost = postRepository.findById(postId).orElseThrow(() -> new RuntimeException());
+        Post findPost = postRepository.findById(postId).orElseThrow(() -> new PostNotFound());
         findPost.edit(
                 postEdit.getTitle() != null ? postEdit.getTitle() : findPost.getTitle(),
                 postEdit.getContent() != null ? postEdit.getContent() : findPost.getContent()
@@ -54,7 +55,7 @@ public class PostService {
     }
 
     public void delete(Long postId){
-        Post findPost = postRepository.findById(postId).orElseThrow(() -> new RuntimeException());
+        Post findPost = postRepository.findById(postId).orElseThrow(() -> new PostNotFound());
         postRepository.delete(findPost);
     }
 

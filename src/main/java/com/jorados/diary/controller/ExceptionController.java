@@ -1,7 +1,9 @@
 package com.jorados.diary.controller;
 
+import com.jorados.diary.exception.SeongjinException;
 import com.jorados.diary.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,6 +28,25 @@ public class ExceptionController {
         for (FieldError fieldError : e.getFieldErrors()) {
             response.addValidation(fieldError.getField(), fieldError.getDefaultMessage()); //addValidation(어떤필드,프로퍼티에있는 메시지)
         }
+        return response;
+    }
+
+    //직접만든 예외처리
+    @ResponseBody
+    @ExceptionHandler(SeongjinException.class)
+    public ResponseEntity<ErrorResponse> seongjinException(SeongjinException e){
+        int statusCode = e.getStatusCode();
+
+        ErrorResponse body = ErrorResponse.builder()
+                .code(String.valueOf(statusCode))
+                .message(e.getMessage())
+                .validation(e.getValidation())
+                .build();
+
+        //ResponseEntity를 쓰면 status도 챙기고 , 응답 바디도 챙길 수 있다.
+        ResponseEntity<ErrorResponse> response = ResponseEntity.status(statusCode)
+                .body(body);
+
         return response;
     }
 }

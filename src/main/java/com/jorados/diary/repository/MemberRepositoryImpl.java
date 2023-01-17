@@ -9,11 +9,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
-    private final MemberRepository memberRepository;
-    @Override
-    public Optional<Member> findByLoginId(String loginId) {
-        return memberRepository.findAll().stream()
-                .filter(m -> m.getLoginId().equals(loginId))
-                .findFirst();
-    }
+    //private final MemberRepository memberRepository;
+
+//    @Override
+//    public Optional<Member> findByLoginId(String loginId) {
+//        return memberRepository.findAll().stream()
+//                .filter(m -> m.getLoginId().equals(loginId))
+//                .findFirst();
+//    }
 }

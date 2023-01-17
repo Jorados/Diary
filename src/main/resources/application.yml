@@ -5,6 +5,7 @@ spring:
     password: cho980625
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+
   date:
     web:
       pageable:
