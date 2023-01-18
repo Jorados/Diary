@@ -2,11 +2,10 @@ package com.jorados.diary.config.jwt;
 
 
 
-import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.jorados.diary.config.auth.PrincipalDetails;
 import com.jorados.diary.domain.Member;
-import com.jorados.diary.repository.MemberRepository;
+import com.jorados.diary.repository.member.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.auth0.jwt.JWT.*;
-import static org.springframework.security.config.Elements.JWT;
 
 
 @Slf4j

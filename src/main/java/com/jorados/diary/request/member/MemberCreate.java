@@ -1,4 +1,4 @@
-package com.jorados.diary.request;
+package com.jorados.diary.request.member;
 
 import lombok.Builder;
 import lombok.Data;

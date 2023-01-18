@@ -1,12 +1,11 @@
-package com.jorados.diary.repository;
+package com.jorados.diary.repository.post;
 
 import com.jorados.diary.domain.Post;
-import com.jorados.diary.request.PostSearch;
+import com.jorados.diary.request.post.PostSearch;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.jorados.diary.domain.QPost.post;
 

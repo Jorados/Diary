@@ -1,11 +1,10 @@
 package com.jorados.diary.controller;
 
 
-import com.jorados.diary.domain.Post;
-import com.jorados.diary.repository.PostRepository;
-import com.jorados.diary.request.PostCreate;
-import com.jorados.diary.request.PostEdit;
-import com.jorados.diary.request.PostSearch;
+import com.jorados.diary.repository.post.PostRepository;
+import com.jorados.diary.request.post.PostCreate;
+import com.jorados.diary.request.post.PostEdit;
+import com.jorados.diary.request.post.PostSearch;
 import com.jorados.diary.response.PostResponse;
 import com.jorados.diary.service.PostService;
 import lombok.RequiredArgsConstructor;

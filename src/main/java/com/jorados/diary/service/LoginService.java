@@ -1,7 +1,6 @@
 package com.jorados.diary.service;
 
-import com.jorados.diary.domain.Member;
-import com.jorados.diary.repository.MemberRepository;
+import com.jorados.diary.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

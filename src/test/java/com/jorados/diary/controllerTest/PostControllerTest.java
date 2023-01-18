@@ -3,9 +3,9 @@ package com.jorados.diary.controllerTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jorados.diary.domain.Post;
-import com.jorados.diary.repository.PostRepository;
-import com.jorados.diary.request.PostCreate;
-import com.jorados.diary.request.PostEdit;
+import com.jorados.diary.repository.post.PostRepository;
+import com.jorados.diary.request.post.PostCreate;
+import com.jorados.diary.request.post.PostEdit;
 import com.jorados.diary.service.PostService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -160,7 +160,7 @@ public class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", Matchers.is(10)))
                 .andExpect(jsonPath("$[0].title").value("제목19"))
-                .andExpect(jsonPath("$.[0].content").value("내용19"))
+                .andExpect(jsonPath("$[0].content").value("내용19"))
                 .andDo(print());
         //then
     }

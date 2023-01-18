@@ -2,26 +2,22 @@ package com.jorados.diary.serviceTest;
 
 import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
-import com.jorados.diary.exception.PostNotFound;
-import com.jorados.diary.repository.MemberRepository;
-import com.jorados.diary.repository.PostRepository;
-import com.jorados.diary.request.PostCreate;
-import com.jorados.diary.request.PostEdit;
-import com.jorados.diary.request.PostSearch;
+import com.jorados.diary.repository.member.MemberRepository;
+import com.jorados.diary.repository.post.PostRepository;
+import com.jorados.diary.request.post.PostCreate;
+import com.jorados.diary.request.post.PostEdit;
+import com.jorados.diary.request.post.PostSearch;
 import com.jorados.diary.response.PostResponse;
 import com.jorados.diary.service.PostService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 

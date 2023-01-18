@@ -2,7 +2,7 @@ package com.jorados.diary.config;
 
 import com.jorados.diary.config.jwt.JwtAuthenticationFilter;
 import com.jorados.diary.config.jwt.JwtAuthorizationFilter;
-import com.jorados.diary.repository.MemberRepository;
+import com.jorados.diary.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

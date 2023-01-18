@@ -1,7 +1,7 @@
 package com.jorados.diary.config.auth;
 
 import com.jorados.diary.domain.Member;
-import com.jorados.diary.repository.MemberRepository;
+import com.jorados.diary.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -3,9 +3,8 @@ package com.jorados.diary.controllerTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
-import com.jorados.diary.repository.MemberRepository;
-import com.jorados.diary.repository.PostRepository;
-import com.jorados.diary.service.MemberService;
+import com.jorados.diary.repository.member.MemberRepository;
+import com.jorados.diary.repository.post.PostRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -46,7 +45,6 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("회원가입")
-    @WithMockUser
     public void test1() throws Exception {
         //given
         Member member = Member.builder()
@@ -56,10 +54,9 @@ public class MemberControllerTest {
                 .build();
         String json = objectMapper.writeValueAsString(member);
         //when
-        mockMvc.perform(post("/member")
+        mockMvc.perform(post("/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
-                .with(csrf())
                 )
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -106,26 +103,26 @@ public class MemberControllerTest {
                 .password("1234")
                 .nickname("성진")
                 .build();
-        Member saveMember = memberRepository.save(member);
+        memberRepository.save(member);
 
-        Post post = Post.builder()
-                .title("하하")
-                .content("호호")
-                .member(member)
-                .build();
-        postRepository.save(post);
+        List<Post> CreatePosts = IntStream.range(1, 4)//1~3
+                .mapToObj(i -> Post.builder()
+                        .title("하하" + i)
+                        .content("호호" + i)
+                        .member(member)
+                        .build())
+                .collect(Collectors.toList());
+        postRepository.saveAll(CreatePosts);
 
         //when
-        mockMvc.perform(get("/member/{memberId}/post",saveMember.getId())
+        mockMvc.perform(get("/member/{memberId}/post",member.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(csrf())
                 )
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title").value("하하1"))
+                .andExpect(jsonPath("$[0].content").value("호호1"))
                 .andDo(print());
         //then
-
     }
-
-
-
 }

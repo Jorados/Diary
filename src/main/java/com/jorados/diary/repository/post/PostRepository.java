@@ -1,4 +1,4 @@
-package com.jorados.diary.repository;
+package com.jorados.diary.repository.post;
 
 import com.jorados.diary.domain.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +13,7 @@ public interface PostRepository extends JpaRepository<Post, Long>,PostRepository
     @Query("select p from Post p left join fetch p.member")
     Post findPostFetchJoin(Long postId);
 
-    @Query("select p from Post p where p.member.id = : memberId")
-    public List<Post> findByMemberId(@Param("memberId") Long memberId);
+    @Query("select p from Post p where p.member.id = :memberId")
+    List<Post> findByMemberId(@Param("memberId") Long memberId);
 
 }

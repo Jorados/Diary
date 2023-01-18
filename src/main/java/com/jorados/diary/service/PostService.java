@@ -2,10 +2,10 @@ package com.jorados.diary.service;
 
 import com.jorados.diary.domain.Post;
 import com.jorados.diary.exception.PostNotFound;
-import com.jorados.diary.repository.PostRepository;
-import com.jorados.diary.request.PostCreate;
-import com.jorados.diary.request.PostEdit;
-import com.jorados.diary.request.PostSearch;
+import com.jorados.diary.repository.post.PostRepository;
+import com.jorados.diary.request.post.PostCreate;
+import com.jorados.diary.request.post.PostEdit;
+import com.jorados.diary.request.post.PostSearch;
 import com.jorados.diary.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,8 +38,10 @@ public class PostService {
         return postResponse;
     }
 
-    public List<Post> findByMemberId(Long memberId){
-        return postRepository.findByMemberId(memberId);
+    public List<PostResponse> findByMemberId(Long memberId){
+        return postRepository.findByMemberId(memberId).stream()
+                .map(post->new PostResponse(post))
+                .collect(Collectors.toList());
     }
 
     //페이징 처리 만들고 나중에
@@ -62,9 +64,5 @@ public class PostService {
         Post findPost = postRepository.findById(postId).orElseThrow(() -> new PostNotFound());
         postRepository.delete(findPost);
     }
-
-
-
-
 
 }

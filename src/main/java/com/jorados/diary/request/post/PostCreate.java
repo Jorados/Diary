@@ -1,4 +1,4 @@
-package com.jorados.diary.request;
+package com.jorados.diary.request.post;
 
 
 import lombok.*;

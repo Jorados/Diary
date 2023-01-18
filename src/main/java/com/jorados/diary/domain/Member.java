@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -23,29 +21,25 @@ public class Member {
     private String username;
     private String nickname;
     private String password;
-    private String roles; //USER
+    private String role; //USER
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Post> post = new ArrayList<>();
 
-    public List<String> getRoleList(){
-        if(this.roles.length() > 0){
-            return Arrays.asList(this.roles.split(","));
-        }
-        return new ArrayList<>();
-    }
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Comment> comment = new ArrayList<>();
 
     @Builder
-    public Member(String username,String nickname,String password) {
+    public Member(String username,String nickname,String password,String role) {
         this.username = username;
         this.nickname = nickname;
         this.password = password;
+        this.role = role;
     }
 
-    public void EncodingAndRole(String password,String roles) {
+    public void EncodingAndRole(String password,String role) {
         this.password = password;
-        this.roles = roles;
+        this.role = role;
     }
-
 
     public void edit(String username,String nickname, String password){
         this.username =username;

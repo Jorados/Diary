@@ -2,9 +2,9 @@ package com.jorados.diary.controller;
 
 
 import com.jorados.diary.domain.Member;
-import com.jorados.diary.domain.Post;
-import com.jorados.diary.request.MemberEdit;
+import com.jorados.diary.request.member.MemberEdit;
 import com.jorados.diary.response.MemberResponse;
+import com.jorados.diary.response.PostResponse;
 import com.jorados.diary.service.MemberService;
 import com.jorados.diary.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,6 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
     private final PostService postService;
-
     @PostMapping("/join")
     public void join(@RequestBody @Valid Member member) throws Exception {
         memberService.join(member);
@@ -31,8 +30,8 @@ public class MemberController {
 
     //내가 쓴 글
     @GetMapping("/member/{memberId}/post")
-    public List<Post> myPostRead(@PathVariable Long memberId) {
-        List<Post> findPosts = postService.findByMemberId(memberId);
+    public List<PostResponse> myPostRead(@PathVariable Long memberId) {
+        List<PostResponse> findPosts = postService.findByMemberId(memberId);
         return findPosts;
     }
 

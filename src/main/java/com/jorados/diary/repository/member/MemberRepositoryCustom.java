@@ -1,4 +1,4 @@
-package com.jorados.diary.repository;
+package com.jorados.diary.repository.member;
 
 import com.jorados.diary.domain.Member;
 

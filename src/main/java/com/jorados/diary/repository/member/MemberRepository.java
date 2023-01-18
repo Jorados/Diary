@@ -1,7 +1,6 @@
-package com.jorados.diary.repository;
+package com.jorados.diary.repository.member;
 
 import com.jorados.diary.domain.Member;
-import com.jorados.diary.domain.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +14,6 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     @Query("select m from Member m left join fetch m.post")
     Member findMemberFetchJoin();
 
-    @Query("select m from Member m left join fetch m.post where m.id =:memberId")
+    @Query("select m from Member m left join fetch m.post where m.id = :memberId")
     Member findByMemberId(@Param("memberId") Long memberId);
 }
