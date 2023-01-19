@@ -31,7 +31,7 @@ public class CommentServiceTest {
     PostRepository postRepository;
 
     @Test
-    @DisplayName("comment 조회")
+    @DisplayName("comment -> member,post 조회")
     public void test1() throws Exception {
         //given
         Member member = Member.builder()
