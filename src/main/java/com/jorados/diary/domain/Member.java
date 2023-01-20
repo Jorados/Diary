@@ -1,5 +1,6 @@
 package com.jorados.diary.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,9 +24,11 @@ public class Member {
     private String password;
     private String role; //USER
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Post> post = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Comment> comment = new ArrayList<>();
 
     @Builder

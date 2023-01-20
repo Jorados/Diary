@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -61,5 +63,26 @@ public class CommentServiceTest {
         assertThat(findComment.getContent()).isEqualTo("제목1의 댓글");
         assertThat(findComment.getMember().getNickname()).isEqualTo("성진"); //조인필요 -> 어찌저찌 해결
         assertThat(findComment.getPost().getTitle()).isEqualTo("제목1"); //조인필요 -> 어찌저찌 해결
+    }
+
+    @Test
+    @DisplayName("postId로 해당 comment 다 조회")
+    public void test2() throws Exception {
+        //given
+        Post post = Post.builder()
+                .title("제목")
+                .content("내용")
+                .build();
+        postRepository.save(post);
+
+        Comment comment = Comment.builder()
+                .content("내용")
+                .post(post)
+                .build();
+        commentRepository.save(comment);
+        //when
+        List<Comment> findComment = commentRepository.findByCommentPostId(post.getId());
+        //then
+        assertThat(findComment.get(0).getPost().getTitle()).isEqualTo("제목");
     }
 }

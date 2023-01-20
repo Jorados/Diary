@@ -22,6 +22,7 @@ body {
 /*}*/
 
 app{
+  display: grid;
   min-height: 100%;
   position: relative;
   padding-bottom: 170px;

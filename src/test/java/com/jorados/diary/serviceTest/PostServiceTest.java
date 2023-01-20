@@ -1,7 +1,10 @@
 package com.jorados.diary.serviceTest;
 
+import com.jorados.diary.domain.Comment;
 import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
+import com.jorados.diary.exception.PostNotFound;
+import com.jorados.diary.repository.comment.CommentRepository;
 import com.jorados.diary.repository.member.MemberRepository;
 import com.jorados.diary.repository.post.PostRepository;
 import com.jorados.diary.request.post.PostCreate;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -27,6 +31,8 @@ public class PostServiceTest {
     @Autowired PostRepository postRepository;
     @Autowired PostService postService;
     @Autowired MemberRepository memberRepository;
+    @Autowired
+    CommentRepository commentRepository;
 
     @BeforeEach
     void deleteAll(){
@@ -153,6 +159,30 @@ public class PostServiceTest {
         Post findPost = postRepository.findPostFetchJoin(post.getId());
         //then
         assertThat(findPost.getMember().getNickname()).isEqualTo("호랑이");
+    }
+
+    @Test
+    @DisplayName("postId로 Post찾기. 근데 들어가 있는 comment도 같이 조회")
+    public void test6() throws Exception {
+        //given
+        Post post = Post.builder()
+                .title("제목")
+                .content("내용")
+                .build();
+        postRepository.save(post);
+        Comment comment = Comment.builder()
+                .content("댓글1")
+                .post(post)
+                .build();
+        commentRepository.save(comment);
+
+
+        //when
+        Post findPost = postRepository.findByIdComment(post.getId());
+        //Post findPost = postRepository.findById(post.getId()).orElseThrow(() -> new PostNotFound());
+        //then
+        assertThat(findPost.getComment().size()).isEqualTo(1);
+        System.out.println(findPost.getComment().get(0));
     }
 
 }

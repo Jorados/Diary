@@ -42,5 +42,4 @@ const edit = () => {
   <div class="mt-2 mt-2 d-flex justify-content-end">
     <el-button type="success" @click="edit()">수정완료</el-button>
   </div>
-
 </template>

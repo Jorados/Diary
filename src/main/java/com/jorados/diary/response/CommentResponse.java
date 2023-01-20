@@ -17,4 +17,10 @@ public class CommentResponse {
         this.member = member;
         this.post = post;
     }
+
+    @Builder
+    public CommentResponse(String content, Post post) {
+        this.content = content;
+        this.post = post;
+    }
 }

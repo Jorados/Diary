@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +32,12 @@ public class CommentController {
     @GetMapping("/comment/{commentId}")
     public CommentResponse read(@PathVariable Long commentId){
         return commentService.read(commentId);
+    }
+
+    //해당 post의 댓글 전부조회
+    @GetMapping("/post/{postId}/comment")
+    public List<Comment> readAll(@PathVariable Long postId){
+        return commentService.readAll(postId);
     }
 
     @PatchMapping("/comment/{commentId}")

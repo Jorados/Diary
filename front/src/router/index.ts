@@ -5,6 +5,8 @@ import ReadView from '../views/ReadView.vue'
 import EditView from "../views/EditView.vue";
 import LoginView from "@/views/LoginView.vue";
 import JoinView from "@/views/JoinView.vue";
+import SuccessView from "@/views/SuccessView.vue";
+import CommentView from "@/views/CommentView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,6 +44,18 @@ const router = createRouter({
       path: "/join",
       name: "join",
       component: JoinView,
+      props: true,
+    },
+    {
+      path: "/success",
+      name: "success",
+      component: SuccessView,
+      props: true,
+    },
+    {
+      path: "/comment/:postId",
+      name: "comment",
+      component: CommentView,
       props: true,
     }
   ]

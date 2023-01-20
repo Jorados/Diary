@@ -15,7 +15,7 @@ const join = function(){
         password: password.value
       })
       .then(()=>{
-        router.replace({name:"home"});
+        router.replace({name:"success"});
       })
 }
 </script>

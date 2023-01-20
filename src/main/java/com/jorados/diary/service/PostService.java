@@ -29,7 +29,7 @@ public class PostService {
     }
 
     public PostResponse read(Long postId){
-        Post post = postRepository.findById(postId).orElseThrow(()->new PostNotFound());
+        Post post = postRepository.findByIdComment(postId); //comment 패치조인 추가
         PostResponse postResponse = PostResponse.builder()
                 .id(post.getId())
                 .title(post.getTitle())

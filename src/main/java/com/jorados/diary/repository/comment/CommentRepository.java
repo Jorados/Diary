@@ -15,4 +15,8 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
     //-> distinct로 중복제거하면서 조인 -> 이래도 되는지 모르겟다
     @Query("select distinct  c from Comment c left join fetch c.post left join fetch c.member where c.id = :commentId")
     Comment findByCommentId(@Param("commentId") Long commentId);
+
+    //postId로 해당 다 Comment조회
+    @Query("select c from Comment c left join fetch c.post where c.post.id =:postId")
+    List<Comment> findByCommentPostId(@Param("postId") Long postId);
 }
