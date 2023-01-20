@@ -8,7 +8,7 @@
 사용언어 : Java 11 / Html,Css,Javascript   
 개발환경     
 Back : SpringBoot / jpa / Mysql   
-Front : Vue.js / Element plus 	     
+Front : html css / vue.js
 
 구현기능
 Rest api를 기반으로 한 기본적인 게시글 crud(생성,조회,수정,삭제)기능   
