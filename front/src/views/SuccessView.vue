@@ -1,5 +1,5 @@
 <template>
-<h2>회원가입 성공</h2>
+<h2>성공!!</h2>
 </template>
 
 <script>

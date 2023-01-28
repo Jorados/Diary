@@ -8,12 +8,10 @@ import router from "@/router";
 const post =ref({
   id:0,
   title:"",
-  content:""
-})
-
-const content =ref({
   content:"",
 })
+
+const content = ref("")
 
 const props = defineProps({
   postId:{
@@ -61,34 +59,48 @@ const commentCreate = function(){
 <template>
   <div class="post" style="display: none" >{{post}}</div>
 
-  <div>
-    <h2 class="title">{{ post.title }}</h2>
-  </div>
+  <el-row>
+    <el-col>
+      <h2 class="title">{{ post.title }}</h2>
+    </el-col>
+  </el-row>
 
-  <div>
-    <div class="content">{{ post.content }}</div>
-  </div>
-
+  <el-row class="mt-3">
+    <el-col>
+      <div class="content">{{ post.content }}</div>
+    </el-col>
+  </el-row>
 
   <el-row class="my-1">
-    <el-button type="primary" @click="moveToEdit()">글 수정</el-button>
-    <el-button type="danger" @click="drop()">글 삭제</el-button>
-    <el-button type="warning" @click="moveToEdit2()">댓글 보기</el-button>
+    <el-col>
+      <el-button type="primary" @click="moveToEdit()">글 수정</el-button>
+      <el-button type="danger" @click="drop()">글 삭제</el-button>
+      <el-button type="warning" @click="moveToEdit2()">댓글 보기</el-button>
+    </el-col>
   </el-row>
 
   <el-form  label-width="100px" style="max-width: 460px">
     <div class="my-5">
       <h2>댓글 달기</h2>
-        <el-input type="text" id="content" v-model="content"/>
+        <el-input v-model="content" type="text" id="content" placeholder="댓글을 입력해주세요."/>
         <el-row class="my-1">
-          <el-button type="primary" @click="commentCreate()">댓글 등록</el-button>
+          <el-col>
+            <el-button type="primary" @click="commentCreate()">댓글 등록</el-button>
+          </el-col>
         </el-row>
     </div>
   </el-form>
 </template>
 
-<style>
+<style scoped lang="scss">
+.title {
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: #383838;
+}
+
 .content {
+  color: #616161;
   white-space: break-spaces;
 }
 </style>

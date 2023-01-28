@@ -24,14 +24,20 @@ public class MemberService {
     @Transactional
     public void join(Member member){
         validateDuplicateMember(member);
-        member.EncodingAndRole(bCryptPasswordEncoder.encode(member.getPassword()),"ROLE_USER");
-        memberRepository.save(member);
+        Member saveMember = Member.builder()
+                        .username(member.getUsername())
+                        .password(bCryptPasswordEncoder.encode(member.getPassword()))
+                        .role("ROLE_USER")
+                        .nickname(member.getNickname())
+                        .build();
+        memberRepository.save(saveMember);
         log.info("회원 가입 완료");
     }
 
     private void validateDuplicateMember(Member member) {
         List<Member> findMembers = memberRepository.findAllByUsername(member.getUsername());
         if (!findMembers.isEmpty()) {
+            log.info("중복 회원 발생");
             throw new DuplicateException();
         }
     }

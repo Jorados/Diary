@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import static com.auth0.jwt.JWT.*;
 
-
+//Http req header에서 토큰을 받으면 인증
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 

@@ -27,16 +27,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(corsFilter)
                 .formLogin().disable()
                 .httpBasic().disable() //기본인증방식 -> 안쓸거임 //토큰방식으로 암호화해서쓸거임
-
                 .addFilter(new JwtAuthenticationFilter(authenticationManager())) //AuthenticationManager
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(),memberRepository))
                 .authorizeRequests()
-                .antMatchers("/api/v1/user/**")
-                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                .antMatchers("/api/v1/manager/**")
-                .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                .antMatchers("/api/v1/admin/**")
-                .access("hasRole('ROLE_ADMIN')")
+//                .antMatchers("/posts")
+//                .access("hasRole('ROLE_USER')")
+//                .antMatchers("/posts/**")
+//                .access("hasRole('ROLE_USER')")
+//                .antMatchers("/comment")
+//                .access("hasRole('ROLE_USER')")
+//                .antMatchers("/comment/**")
+//                .access("hasRole('ROLE_USER')")
                 .anyRequest().permitAll();
     }
 }

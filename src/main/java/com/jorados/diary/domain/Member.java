@@ -39,15 +39,14 @@ public class Member {
         this.role = role;
     }
 
-    public void EncodingAndRole(String password,String role) {
-        this.password = password;
-        this.role = role;
-    }
+//    public void EncodingAndRole(String password,String role) {
+//        this.password = password;
+//        this.role = role;
+//    }
 
     public void edit(String username,String nickname, String password){
         this.username =username;
         this.nickname = nickname;
         this.password = password;
     }
-
 }

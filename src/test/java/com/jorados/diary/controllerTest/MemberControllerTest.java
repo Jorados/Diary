@@ -1,10 +1,12 @@
 package com.jorados.diary.controllerTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jorados.diary.controller.MemberController;
 import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
 import com.jorados.diary.repository.member.MemberRepository;
 import com.jorados.diary.repository.post.PostRepository;
+import net.minidev.json.JSONObject;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +17,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +44,9 @@ public class MemberControllerTest {
     ObjectMapper objectMapper;
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    MemberController memberController;
 
     @Autowired
     PostRepository postRepository;
@@ -125,4 +133,46 @@ public class MemberControllerTest {
                 .andDo(print());
         //then
     }
+
+    @BeforeEach
+    public void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(memberController).build();
+    }
+
+    @DisplayName("1. 로그인 실패 테스트")
+    @Test
+    void test_1() throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("user_id", "test_userr");
+        jsonObject.put("user_pw", "test_passwordd");
+
+        ResultActions result = mockMvc.perform(post("/login")
+                .content(jsonObject.toString())
+                .contentType(MediaType.APPLICATION_JSON));
+
+        MvcResult mvcResult = result.andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @DisplayName("2. 로그인 성공 테스트")
+    @Test
+    void test_2() throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("user_id", "test_user");
+        jsonObject.put("user_pw", "test_password");
+
+        ResultActions result = mockMvc.perform(post("/login")
+                .content(jsonObject.toString())
+                .contentType(MediaType.APPLICATION_JSON));
+
+        MvcResult mvcResult = result.andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
 }

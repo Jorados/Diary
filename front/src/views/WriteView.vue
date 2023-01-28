@@ -30,7 +30,7 @@ const write = function(){
   </div>
 
   <el-row class="my-1">
-    <el-button @click="write()">글 쓰기</el-button>
+    <el-button type="primary"  @click="write()">글 쓰기</el-button>
   </el-row>
 
 
