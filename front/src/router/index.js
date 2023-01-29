@@ -3,11 +3,21 @@ import HomeView from '../views/HomeView.vue'
 import WriteView from '../views/WriteView.vue'
 import ReadView from '../views/ReadView.vue'
 import EditView from "../views/EditView.vue";
-import LoginView from "@/views/LoginView.vue";
+//import LoginView from "@/views/LoginView.vue";
 import JoinView from "@/views/JoinView.vue";
 import SuccessView from "@/views/SuccessView.vue";
 import CommentView from "@/views/CommentView.vue";
 import Login from "@/views/commons/Login.vue";
+import store from "@/vuex/store.js";
+
+const requireAuth = () => (from, to, next) => {
+  const token = localStorage.getItem('user_token')
+  if (token) {
+    store.state.isLogin = true
+    return next()
+  } // isLogin === true면 페이지 이동
+  next('/login') // isLogin === false면 다시 로그인 화면으로 이동
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,12 +25,13 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      beforeEnter: requireAuth()
     },
     {
       path: '/write',
       name: 'write',
-      component: WriteView
+      component: WriteView,
     },
     {
       path:"/read/:postId",

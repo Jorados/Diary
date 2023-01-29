@@ -1,20 +1,20 @@
 package com.jorados.diary.response;
 
-import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
+import com.jorados.diary.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class CommentResponse {
     private String content;
-    private Member member;
+    private User user;
     private Post post;
 
     @Builder
-    public CommentResponse(String content, Member member, Post post) {
+    public CommentResponse(String content, User user, Post post) {
         this.content = content;
-        this.member = member;
+        this.user = user;
         this.post = post;
     }
 

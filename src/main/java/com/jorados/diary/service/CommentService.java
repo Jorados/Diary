@@ -27,7 +27,7 @@ public class CommentService {
     public void create(CommentCreate commentCreate){
         Comment comment = Comment.builder()
                 .content(commentCreate.getContent())
-                .member(commentCreate.getMember())
+                .user(commentCreate.getUser())
                 .post(commentCreate.getPost())
                 .build();
         commentRepository.save(comment);
@@ -37,7 +37,7 @@ public class CommentService {
         Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new PostNotFound());
         CommentResponse commentResponse = CommentResponse.builder()
                 .content(findComment.getContent())
-                .member(findComment.getMember())
+                .user(findComment.getUser())
                 .post(findComment.getPost())
                 .build();
         return commentResponse;

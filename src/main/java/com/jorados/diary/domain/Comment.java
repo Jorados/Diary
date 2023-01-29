@@ -18,16 +18,16 @@ public class Comment {
     private Long id;
     private String content;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "user_id")
+    private User user;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 
     @Builder
-    public Comment(String content, Member member, Post post) {
+    public Comment(String content, User user, Post post) {
         this.content = content;
-        this.member = member;
+        this.user = user;
         this.post = post;
     }
 

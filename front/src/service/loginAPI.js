@@ -1,17 +1,19 @@
-// src/service/loginAPI.js
+/* service/loginAPI.js */
+import axios from 'axios'
+
 const getUserInfo = (userId, userPw) => {
     const reqData = {
         'user_id': userId,
         'user_pw': userPw
     }
 
-    return {
-        'data': {
-            'user_id': reqData.user_id,
-            'user_token': 'user_test_token',
-            'user_role': 'USER_ROLE'
+    let serverUrl = '/api'
+
+    return axios.post(serverUrl + '/user/login', reqData, {
+        headers: {
+            'Content-type': 'application/json'
         }
-    }
+    })
 }
 
 export default {

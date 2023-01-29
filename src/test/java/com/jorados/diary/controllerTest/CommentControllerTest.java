@@ -2,10 +2,8 @@ package com.jorados.diary.controllerTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jorados.diary.domain.Comment;
-import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
 import com.jorados.diary.repository.comment.CommentRepository;
-import com.jorados.diary.repository.member.MemberRepository;
 import com.jorados.diary.repository.post.PostRepository;
 import com.jorados.diary.request.comment.CommentCreate;
 import com.jorados.diary.service.CommentService;
@@ -34,7 +32,6 @@ public class CommentControllerTest {
     @Autowired ObjectMapper objectMapper;
     @Autowired MockMvc mockMvc;
     @Autowired CommentRepository commentRepository;
-    @Autowired MemberRepository memberRepository;
     @Autowired PostRepository postRepository;
     @Autowired
     CommentService commentService;

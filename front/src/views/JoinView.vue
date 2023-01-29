@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import axios from "axios";
-import router from "@/router";
+import router from "@/router/index.js";
 import {ref} from "vue";
 import {state} from "vue-tsc/out/shared";
 
 
-const username =ref("")
-const password = ref("")
-const nickname = ref("")
+const userId =ref("")
+const userPw = ref("")
+const userName = ref("")
 
 const join = function(){
   axios
-      .post("/api/join",{
-        username: username.value,
-        password: password.value,
-        nickname: nickname.value,
+      .post("/api/user/join",{
+        userId: userId.value,
+        userPw: userPw.value,
+        userName: userName.value,
       })
       .then(()=>{
         router.replace({name:"success"});
@@ -32,15 +32,15 @@ const join = function(){
   >
     <div class="my-1">
       <label for="username">id</label>
-      <el-input type="text" id="username" v-model="username" />
+      <el-input type="text" id="userId" placeholder="아이디를 입력하세요." v-model="userId" />
     </div>
     <div class="my-1">
       <label for="password">password</label>
-      <el-input type="password" id="password" v-model="password" />
+      <el-input type="password" id="userPw" placeholder="비밀번호를 입력하세요." v-model="userPw" />
     </div>
     <div class="my-1">
-      <label for="nickname">nickname</label>
-      <el-input type="text" id="nickname" v-model="nickname" />
+      <label for="nickname">username</label>
+      <el-input type="text" id="userName" placeholder="닉네임을 입력하세요." v-model="userName" />
     </div>
   </el-form>
 

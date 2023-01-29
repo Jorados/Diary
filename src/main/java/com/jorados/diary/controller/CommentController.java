@@ -8,7 +8,6 @@ import com.jorados.diary.request.comment.CommentCreate;
 import com.jorados.diary.request.comment.CommentEdit;
 import com.jorados.diary.response.CommentResponse;
 import com.jorados.diary.service.CommentService;
-import com.jorados.diary.service.MemberService;
 import com.jorados.diary.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class CommentController {
-    private final MemberService memberService;
     private final PostService postService;
     private final CommentService commentService;
     private final CommentRepository commentRepository;

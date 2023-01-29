@@ -1,11 +1,11 @@
 package com.jorados.diary.serviceTest;
 
 import com.jorados.diary.domain.Comment;
-import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
+import com.jorados.diary.domain.User;
 import com.jorados.diary.repository.comment.CommentRepository;
-import com.jorados.diary.repository.member.MemberRepository;
 import com.jorados.diary.repository.post.PostRepository;
+import com.jorados.diary.repository.user.UserRepository;
 import com.jorados.diary.response.CommentResponse;
 import com.jorados.diary.service.CommentService;
 import org.assertj.core.api.Assertions;
@@ -28,7 +28,7 @@ public class CommentServiceTest {
     @Autowired
     CommentService commentService;
     @Autowired
-    MemberRepository memberRepository;
+    UserRepository userRepository;
     @Autowired
     PostRepository postRepository;
 
@@ -36,23 +36,23 @@ public class CommentServiceTest {
     @DisplayName("comment -> member,post 조회")
     public void test1() throws Exception {
         //given
-        Member member = Member.builder()
-                .username("asd")
-                .password("1234")
-                .nickname("성진")
-                .build();
-        memberRepository.save(member);
+       User user = User.builder()
+               .userId("1")
+               .userPw("1")
+               .userName("1")
+               .build();
+        userRepository.save(user);
 
         Post post = Post.builder()
                 .title("제목1")
                 .content("내용1")
-                .member(member)
+                .user(user)
                 .build();
         postRepository.save(post);
 
         Comment comment = Comment.builder()
                 .content("제목1의 댓글")
-                .member(member)
+                .user(user)
                 .post(post)
                 .build();
         commentRepository.save(comment);
@@ -61,7 +61,7 @@ public class CommentServiceTest {
         Comment findComment = commentRepository.findByCommentId(comment.getId());
         //then
         assertThat(findComment.getContent()).isEqualTo("제목1의 댓글");
-        assertThat(findComment.getMember().getNickname()).isEqualTo("성진"); //조인필요 -> 어찌저찌 해결
+        assertThat(findComment.getUser().getUserName()).isEqualTo("1"); //조인필요 -> 어찌저찌 해결
         assertThat(findComment.getPost().getTitle()).isEqualTo("제목1"); //조인필요 -> 어찌저찌 해결
     }
 

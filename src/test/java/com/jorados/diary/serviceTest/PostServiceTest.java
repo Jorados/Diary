@@ -1,12 +1,12 @@
 package com.jorados.diary.serviceTest;
 
 import com.jorados.diary.domain.Comment;
-import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
+import com.jorados.diary.domain.User;
 import com.jorados.diary.exception.PostNotFound;
 import com.jorados.diary.repository.comment.CommentRepository;
-import com.jorados.diary.repository.member.MemberRepository;
 import com.jorados.diary.repository.post.PostRepository;
+import com.jorados.diary.repository.user.UserRepository;
 import com.jorados.diary.request.post.PostCreate;
 import com.jorados.diary.request.post.PostEdit;
 import com.jorados.diary.request.post.PostSearch;
@@ -30,7 +30,8 @@ public class PostServiceTest {
 
     @Autowired PostRepository postRepository;
     @Autowired PostService postService;
-    @Autowired MemberRepository memberRepository;
+    @Autowired
+    UserRepository userRepository;
     @Autowired
     CommentRepository commentRepository;
 
@@ -140,25 +141,25 @@ public class PostServiceTest {
     @DisplayName("글쓴이")
     public void test5() throws Exception {
         //given
-        Member member = Member.builder()
-                .username("seongjin")
-                .password("123")
-                .nickname("호랑이")
+        User user = User.builder()
+                .userId("aa")
+                .userPw("aa")
+                .userName("aa")
                 .build();
 
-        memberRepository.save(member);
+        userRepository.save(user);
 
         Post post = Post.builder()
                 .title("하하")
                 .content("호호")
-                .member(member)
+                .user(user)
                 .build();
 
         postRepository.save(post);
         //when
         Post findPost = postRepository.findPostFetchJoin(post.getId());
         //then
-        assertThat(findPost.getMember().getNickname()).isEqualTo("호랑이");
+        assertThat(findPost.getUser().getUserName()).isEqualTo("aa");
     }
 
     @Test

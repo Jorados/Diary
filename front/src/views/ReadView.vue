@@ -3,7 +3,7 @@ import {onMounted, ref} from "vue";
 import axios from "axios";
 import {hColgroup} from "element-plus/es/components/table/src/h-helper";
 import props = hColgroup.props;
-import router from "@/router";
+import router from "@/router/index.js";
 
 const post =ref({
   id:0,

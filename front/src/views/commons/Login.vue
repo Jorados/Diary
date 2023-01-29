@@ -1,24 +1,32 @@
 <template>
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <div>
     <div>
-      <h2>Please Log In</h2>
-      <div id="loginForm">
-        <form @submit.prevent="fnLogin">
+      <div id="loginForm()">
+        <el-form :label-position="labelPosition"
+                 label-width="100px"
+                 :model="formLabelAlign"
+                 style="max-width: 460px"
+         @submit.prevent="fnLogin">
           <p>
-            <input class="w3-input" name="uid" placeholder="Enter your ID" v-model="user_id"><br>
+            <label for="username">id</label>
+            <el-input class="my-1" name="uid" placeholder="아이디를 입력하세요." v-model="user_id" /><br>
           </p>
           <p>
-            <input name="password" class="w3-input" placeholder="Enter your password" v-model="user_pw" type="password">
+            <label for="password">password</label>
+            <el-input name="password" placeholder="비밀번호를 입력하세요." v-model="user_pw" type="password" />
           </p>
           <p>
-            <button type="submit" class="w3-button w3-green w3-round">Login</button>
+            <el-row class="my-1">
+              <el-button type="primary" @click="fnLogin">로그인</el-button>
+            </el-row>
           </p>
-        </form>
+        </el-form>
       </div>
     </div>
   </div>
+
 </template>
+
 
 <script>
 import {mapActions, mapGetters} from 'vuex'   //vuex 추가

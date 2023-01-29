@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+//토큰 생성-인코딩,디코딩
 @Slf4j
 @Component
 public class JwtUtil {
@@ -18,6 +19,7 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     String secret;
 
+    //토큰생성.
     public String createToken(String userId, String userName) {
         Algorithm algorithm = Algorithm.HMAC256(secret);
         return JWT.create()
@@ -28,6 +30,7 @@ public class JwtUtil {
                 .sign(algorithm);
     }
 
+    //토큰디코딩
     public DecodedJWT decodeToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -41,7 +44,6 @@ public class JwtUtil {
         } catch (IllegalArgumentException e) {
             log.error("JWT claims string is empty: {}", e.getMessage());
         }
-
         return null;
     }
 }

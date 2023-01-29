@@ -22,18 +22,18 @@ public class Post {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Comment> comment = new ArrayList<>();
 
     @Builder
-    public Post(String title, String content,Member member) {
+    public Post(String title, String content, User user) {
         this.title = title;
         this.content = content;
-        this.member = member;
+        this.user = user;
     }
     public void edit(String title,String content){
         this.title = title;

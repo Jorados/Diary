@@ -1,8 +1,8 @@
 package com.jorados.diary.request.comment;
 
 
-import com.jorados.diary.domain.Member;
 import com.jorados.diary.domain.Post;
+import com.jorados.diary.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,13 +14,13 @@ public class CommentCreate {
 
     @NotBlank
     private String content;
-    private Member member;
+    private User user;
     private Post post;
 
     @Builder
-    public CommentCreate(String content, Member member, Post post) {
+    public CommentCreate(String content, User user, Post post) {
         this.content = content;
-        this.member = member;
+        this.user = user;
         this.post = post;
     }
 }

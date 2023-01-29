@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios from "axios";
-import router from "@/router";
+import router from "@/router/index.js";
 import {ref} from "vue";
 
 
@@ -29,15 +29,6 @@ const login = function(){
       })
 }
 
-const register = function (){
-    this.$store.dispatch('register',{
-      username: username.value,
-      password: password.value
-    })
-        .then(()=>{
-          router.replace({name:"success"});
-        })
-}
 </script>
 
 <template>
@@ -59,7 +50,6 @@ const register = function (){
 
   <el-row class="my-1">
     <el-button type="primary" @click="login()">로그인</el-button>
-    <el-button type="primary" @click="register()">로그인2</el-button>
   </el-row>
 
 </template>
