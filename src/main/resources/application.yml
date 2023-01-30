@@ -5,6 +5,10 @@ spring:
     password: cho980625
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  #페이징 처리 관련 --> 뭔지 알자
+  #프론트 데이터 바인딩 카멜케이스대신.
+  jackson:
+    property-naming-strategy: SNAKE_CASE
 
   date:
     web:

@@ -9,6 +9,7 @@ import SuccessView from "@/views/SuccessView.vue";
 import CommentView from "@/views/CommentView.vue";
 import Login from "@/views/commons/Login.vue";
 import store from "@/vuex/store.js";
+import BoardList from "@/views/BoardList.vue";
 
 const requireAuth = () => (from, to, next) => {
   const token = localStorage.getItem('user_token')
@@ -75,6 +76,11 @@ const router = createRouter({
       name: "comment",
       component: CommentView,
       props: true,
+    },
+    {
+      path: '/boardList',
+      name: 'boardList',
+      component: BoardList,
     }
   ]
 })

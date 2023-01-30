@@ -2,20 +2,28 @@ package com.jorados.diary.service;
 
 import com.jorados.diary.domain.Post;
 import com.jorados.diary.exception.PostNotFound;
+import com.jorados.diary.model.Header;
+import com.jorados.diary.model.Pagination;
+import com.jorados.diary.model.SearchCondition;
 import com.jorados.diary.repository.post.PostRepository;
 import com.jorados.diary.request.post.PostCreate;
 import com.jorados.diary.request.post.PostEdit;
 import com.jorados.diary.request.post.PostSearch;
 import com.jorados.diary.response.PostResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PostService {
     private final PostRepository postRepository;
 
@@ -63,6 +71,33 @@ public class PostService {
     public void delete(Long postId){
         Post findPost = postRepository.findById(postId).orElseThrow(() -> new PostNotFound());
         postRepository.delete(findPost);
+    }
+
+
+    //vue 페이징
+    public Header<List<PostResponse>> getBoardList(Pageable pageable, SearchCondition searchCondition) {
+        List<PostResponse> dtos = new ArrayList<>();
+
+        Page<Post> posts = postRepository.findAllBySearchCondition(pageable, searchCondition);
+        for (Post post : posts) {
+            PostResponse dto = PostResponse.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    //.createdAt(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
+                    .build();
+
+            dtos.add(dto);
+        }
+
+        Pagination pagination = new Pagination(
+                (int) posts.getTotalElements()
+                , pageable.getPageNumber() + 1
+                , pageable.getPageSize()
+                , 10
+        );
+
+        return Header.OK(dtos, pagination);
     }
 
 }

@@ -3,6 +3,13 @@
 import axios from "axios";
 import {ref} from "vue";
 
+const instance = axios.create({
+  baseURL: '',
+  headers: {
+    Authrozation: 'testToken',
+  }
+})
+
 const posts = ref([]);
 
 axios.get("/api/posts?page=1&size=5").then((response) => {
@@ -12,27 +19,18 @@ axios.get("/api/posts?page=1&size=5").then((response) => {
 });
 
 
-const instance = axios.create({
-  baseURL: '',
-  headers: {
-    Authrozation: 'testToken',
-  }
-})
 
 </script>
 
 <template>
   <ul>
     <li class="my-4" v-for="post in posts" :key="post.id">
-
       <div class="title">
         <router-link :to="{name:'read',params: {postId: post.id}}">{{post.title}}</router-link>
       </div>
-
       <div class="content">
         {{post.content}}
       </div>
-
     </li>
   </ul>
 
@@ -43,6 +41,8 @@ const instance = axios.create({
         :total="50"
         class="mt-4"
     />
+
+
 </template>
 
 <style scoped lang="scss">

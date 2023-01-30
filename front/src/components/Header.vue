@@ -17,7 +17,7 @@ export default {
 
     <el-menu mode="horizontal" router>
       <el-menu-item index="/">Home</el-menu-item>
-      <el-menu-item index="/write">글 작성</el-menu-item>
+      <el-menu-item index="/write" v-if="this.$store.state.isLogin">글 작성</el-menu-item>
       <el-menu-item index="/join">회원가입</el-menu-item>
       <el-menu-item index="/login" v-if="!this.$store.state.isLogin">로그인</el-menu-item>
       <el-menu-item>

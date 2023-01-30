@@ -4,8 +4,10 @@ import com.jorados.diary.domain.Post;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
-public class PostResponse {
+public class PostResponse implements Serializable {
     private Long id;
     private String title;
     private String content;
