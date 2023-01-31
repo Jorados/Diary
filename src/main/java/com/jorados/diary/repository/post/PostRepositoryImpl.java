@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
 import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,7 +21,7 @@ import static com.jorados.diary.domain.QPost.post;
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {
 
-    private final JPQLQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
     @Override
     public List<Post> getList(PostSearch postSearch) {
         return queryFactory
@@ -32,7 +33,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     public Page<Post> findAllBySearchCondition(Pageable pageable, SearchCondition searchCondition) {
-        JPQLQuery<Post> query = queryFactory.selectFrom(post)
+        JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .where(searchKeywords(searchCondition.getSk(), searchCondition.getSv()));
 
         long total = query.stream().count();   //여기서 전체 카운트 후 아래에서 조건작업
@@ -52,7 +53,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             if(StringUtils.hasLength(sv)) {
                 return post.title.contains(sv);
             }
-        } else if ("content".equals(sk)) {
+        }
+        if ("content".equals(sk)) {
             if(StringUtils.hasLength(sv)) {
                 return post.content.contains(sv);
             }

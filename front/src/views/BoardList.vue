@@ -1,8 +1,19 @@
 <template>
-  <div class="board-list">
-    <div class="common-buttons">
-      <button type="button" class="w3-button w3-round w3-blue-gray" v-on:click="fnWrite">등록</button>
+
+  <div class="my-3 d-flex">
+    <div class="mx-2">
+      <el-select v-model="search_key">
+        <el-option label="- 선택 -" value="">- 선택 -</el-option>
+        <el-option label="제목" value="title">제목</el-option>
+        <el-option label="내용" value="content">내용</el-option>
+      </el-select>
     </div>
+
+    <div class="d-flex">
+      <el-input type="text" v-model="search_value" @keyup.enter="fnPage()"></el-input>
+      <el-button class="mx-2" type="primary" @click="fnPage()">검색</el-button>
+    </div>
+  </div>
 
     <div class="my-5" v-for="(row, id) in list" :key="id">
       <div>{{ row.id }}
@@ -33,22 +44,21 @@
       </span>
     </div>
 
-    <div>
-      <select v-model="search_key">
-        <option value="">- 선택 -</option>
-        <option value="author">작성자</option>
-        <option value="title">제목</option>
-        <option value="contents">내용</option>
-      </select>
-      &nbsp;
-      <input type="text" v-model="search_value" @keyup.enter="fnPage()">
-      &nbsp;
-      <button @click="fnPage()">검색</button>
-    </div>
-  </div>
+
 </template>
 
 <script>
+
+import axios from "axios";
+
+const instance = axios.create({
+  baseURL: '',
+  headers: {
+    Authrozation: 'testToken',
+  }
+})
+
+
 export default {
   data() { //변수생성
     return {
