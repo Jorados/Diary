@@ -21,6 +21,8 @@ public class Post {
     @Lob
     private String content;
 
+    private String username;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -29,11 +31,13 @@ public class Post {
     @JsonIgnore
     private List<Comment> comment = new ArrayList<>();
 
+
     @Builder
-    public Post(String title, String content, User user) {
+    public Post(String title, String content, User user,String username) {
         this.title = title;
         this.content = content;
         this.user = user;
+        this.username = username;
     }
     public void edit(String title,String content){
         this.title = title;

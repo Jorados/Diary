@@ -10,16 +10,23 @@ import com.jorados.diary.request.post.PostSearch;
 import com.jorados.diary.response.PostResponse;
 import com.jorados.diary.service.PostService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
+
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
+@Slf4j
 public class PostController {
 
     private final PostService postService;
@@ -31,8 +38,11 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public void create(@RequestBody @Valid PostCreate postCreate) throws Exception{
-        postService.create(postCreate);
+    public void create(@RequestBody @Valid PostCreate postCreate,
+                       @AuthenticationPrincipal User user) throws Exception{
+        String username = user.getUsername();
+        log.info("username ={}",username);
+        postService.create(postCreate,username);
     }
 
     @GetMapping("/posts/{postId}")
@@ -55,6 +65,7 @@ public class PostController {
 //    public List<PostResponse> boardList() {
 //        return postService.getBoardList();
 //    }
+
     @GetMapping("/board/list")
     public Header<List<PostResponse>> boardList(
             @PageableDefault(sort = {"id"}) Pageable pageable,

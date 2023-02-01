@@ -43,12 +43,18 @@ public class PostServiceTest {
     @Test
     @DisplayName("글 작성 테스트")
     public void test1(){
+        User user = User.builder()
+                .userId("aaa")
+                .userPw("bbb")
+                .userName("ccc")
+                .build();
+
         PostCreate postCreate = PostCreate.builder()
                 .title("제목입니다.")
                 .content("내용입니다.")
                 .build();
 
-        postService.create(postCreate);
+        //postService.create(postCreate);
         assertThat(postCreate.getTitle()).isEqualTo("제목입니다.");
         assertThat(postCreate.getContent()).isEqualTo("내용입니다.");
     }

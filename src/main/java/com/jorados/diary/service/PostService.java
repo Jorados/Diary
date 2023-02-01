@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -28,8 +29,9 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public void create(PostCreate postCreate){
+    public void create(PostCreate postCreate,String username){
         Post post = Post.builder()
+                .username(username)
                 .title(postCreate.getTitle())
                 .content(postCreate.getContent())
                 .build();

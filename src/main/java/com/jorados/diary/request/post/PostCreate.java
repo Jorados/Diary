@@ -2,6 +2,7 @@ package com.jorados.diary.request.post;
 
 
 import lombok.*;
+import org.springframework.security.core.userdetails.User;
 
 import javax.validation.constraints.NotBlank;
 
@@ -16,9 +17,12 @@ public class PostCreate {
     @NotBlank(message = "제목을 입력해주세요")
     private String content;
 
+    private User user;
+
     @Builder
-    public PostCreate(String title, String content) {
+    public PostCreate(String title, String content,User user) {
         this.title = title;
         this.content = content;
+        this.user = user;
     }
 }

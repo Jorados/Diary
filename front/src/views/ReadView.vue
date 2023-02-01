@@ -25,10 +25,9 @@ const props = defineProps({
 const moveToEdit = () => {
   router.push({name:"edit",params:{postId: props.postId}});
 }
-const moveToEdit2 = () => {
+const moveToComment = () => {
   router.push({name:"comment",params:{postId:props.postId}});
 }
-
 
 //글 조회
 onMounted(() => {
@@ -75,7 +74,7 @@ const commentCreate = function(){
     <el-col>
       <el-button type="primary" @click="moveToEdit()">글 수정</el-button>
       <el-button type="danger" @click="drop()">글 삭제</el-button>
-      <el-button type="warning" @click="moveToEdit2()">댓글 보기</el-button>
+      <el-button type="warning" @click="moveToComment()">댓글 보기</el-button>
     </el-col>
   </el-row>
 

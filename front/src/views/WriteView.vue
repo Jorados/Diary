@@ -5,14 +5,14 @@ import {ref} from "vue";
 
 const title =ref("")
 const content = ref("")
+const user = ref("")
 
 const write = function(){
   axios
       .post("/api/posts",{
         title: title.value,
         content: content.value
-      })
-      .then(()=>{
+      }).then(()=>{
         router.replace({name:"home"});
       })
 }

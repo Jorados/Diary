@@ -1,3 +1,53 @@
+<template>
+
+  <div class="my-3 d-flex">
+    <div class="mx-2">
+      <el-select v-model="search_key">
+        <el-option label="- 선택 -" value="">- 선택 -</el-option>
+        <el-option label="제목" value="title">제목</el-option>
+        <el-option label="내용" value="content">내용</el-option>
+      </el-select>
+    </div>
+
+    <div class="d-flex">
+      <el-input type="text" v-model="search_value" @keyup.enter="fnPage()"></el-input>
+      <el-button class="mx-2" type="primary" @click="fnPage()">검색</el-button>
+    </div>
+  </div>
+
+  <div>
+    <ul>
+      <li class="my-4" v-for="post in list" :key="post.id">
+        <div class="title">
+          <router-link :to="{name:'read',params: {postId: post.id}}">{{post.title}}</router-link>
+        </div>
+        <div class="content">
+          {{post.content}}
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
+      <span class="pg">
+        <a href="javascript:;" @click="fnPage(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
+        <a href="javascript:;" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)"
+           class="prev w3-button w3-bar-item w3-border">&lt;</a>
+        <template v-for=" (n,index) in paginavigation()">
+            <template v-if="paging.page==n">
+                <strong class="w3-button w3-bar-item w3-border w3-blue" :key="index">{{ n }}</strong>
+            </template>
+            <template v-else>
+                <a class="w3-button w3-bar-item w3-border" href="javascript:;" @click="fnPage(`${n}`)" :key="index">{{ n }}</a>
+            </template>
+        </template>
+        <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
+           @click="fnPage(`${paging.end_page+1}`)" class="next w3-button w3-bar-item w3-border">&gt;</a>
+        <a href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)" class="last w3-button w3-bar-item w3-border">&gt;&gt;</a>
+      </span>
+  </div>
+</template>
+
 <script>
 
 import axios from "axios";
@@ -11,11 +61,9 @@ const instance = axios.create({
 })
 
 const posts = ref([]);
-//
-// axios.get("/api/posts?page=1&size=5").then((response) => {
-//   response.data.forEach((r:any) =>{
-//     posts.value.push(r)
-//   })
+
+// axios.get(`/api/user/${props.userId}`).then((response) => {
+//   user.value = response.data;
 // });
 
 export default {
@@ -89,59 +137,6 @@ export default {
 }
 
 </script>
-
-<template>
-
-  <div class="my-3 d-flex">
-    <div class="mx-2">
-      <el-select v-model="search_key">
-        <el-option label="- 선택 -" value="">- 선택 -</el-option>
-        <el-option label="제목" value="title">제목</el-option>
-        <el-option label="내용" value="content">내용</el-option>
-      </el-select>
-    </div>
-
-    <div class="d-flex">
-      <el-input type="text" v-model="search_value" @keyup.enter="fnPage()"></el-input>
-      <el-button class="mx-2" type="primary" @click="fnPage()">검색</el-button>
-    </div>
-  </div>
-
-  <div>
-    <ul>
-      <li class="my-4" v-for="post in list" :key="post.id">
-        <div class="title">
-          <router-link :to="{name:'read',params: {postId: post.id}}">{{post.title}}</router-link>
-        </div>
-        <div class="content">
-          {{post.content}}
-        </div>
-      </li>
-    </ul>
-  </div>
-
-  <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
-      <span class="pg">
-        <a href="javascript:;" @click="fnPage(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
-        <a href="javascript:;" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)"
-           class="prev w3-button w3-bar-item w3-border">&lt;</a>
-        <template v-for=" (n,index) in paginavigation()">
-            <template v-if="paging.page==n">
-                <strong class="w3-button w3-bar-item w3-border w3-blue" :key="index">{{ n }}</strong>
-            </template>
-            <template v-else>
-                <a class="w3-button w3-bar-item w3-border" href="javascript:;" @click="fnPage(`${n}`)" :key="index">{{ n }}</a>
-            </template>
-        </template>
-        <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
-           @click="fnPage(`${paging.end_page+1}`)" class="next w3-button w3-bar-item w3-border">&gt;</a>
-        <a href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)" class="last w3-button w3-bar-item w3-border">&gt;&gt;</a>
-      </span>
-  </div>
-
-
-
-</template>
 
 <style scoped lang="scss">
 ul {

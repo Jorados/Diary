@@ -19,10 +19,6 @@ const login = function(){
         }
         if(res.status==200){
           alert('로그인 성공');
-          //뭐지이게
-          // document.cookie = `authorization=${res.headers.authorization}`;
-          // axios.defaults.headers.common['x-access-token'] = res.headers.authorization;
-          //뭐지이게
           console.log(res);
           router.replace({name:"success"});
         }
@@ -49,7 +45,7 @@ const login = function(){
   </el-form>
 
   <el-row class="my-1">
-    <el-button type="primary" @click="login()">로그인</el-button>
+    <el-button type="primary"  @click="login()">로그인</el-button>
   </el-row>
 
 </template>

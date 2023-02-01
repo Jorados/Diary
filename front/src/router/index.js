@@ -33,6 +33,7 @@ const router = createRouter({
       path: '/write',
       name: 'write',
       component: WriteView,
+      props: true,
     },
     {
       path:"/read/:postId",
