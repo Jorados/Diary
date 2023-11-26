@@ -4,7 +4,7 @@
 
 개요  
 개발자 : 조라도스   
-개발기간 : 2022-01-14 ~ 2022-01-31까지(목표)   
+개발기간 : 2022-01-14 ~ 2022-01-31
 사용언어 : Java 11 / Html,Css,Javascript   
 개발환경     
 Back : SpringBoot / jpa / Mysql   
